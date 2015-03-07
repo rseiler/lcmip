@@ -11,11 +11,11 @@
 
     <groupId>at.rseiler</groupId>
     <artifactId>lcmip</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
     <name>LCMiP</name>
     <description>
-        LCMiP - Log Called Methods in Production: a tool box to log all called methods and than creates a report of all unused classes and unused methods.
+        LCMiP - Log Called Methods in Production: a tool box to log all called methods and to create a report of all unused classes and unused methods.
     </description>
 
     <modules>
@@ -33,7 +33,7 @@
         <github-uri>https://github.com/rseiler/lcmip.git</github-uri>
         <git-uri>git:${github-uri}</git-uri>
 
-        <!-- not required because it's so simple -->
+        <!-- not required because it's so simple :) -->
         <skipCodeAnalysis>true</skipCodeAnalysis>
         <skipTests>true</skipTests>
     </properties>

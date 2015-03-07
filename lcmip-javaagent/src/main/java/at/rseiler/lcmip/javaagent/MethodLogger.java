@@ -9,16 +9,31 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Logs all method calls.
+ * <p/>
+ * A BufferedWriter is used because of performance reasons. Every 60s a flush is triggered, if necessary.
+ *
+ * @author Reinhard Seiler {@literal <rseiler.developer@gmail.com>}
+ */
 public class MethodLogger {
 
-    private static final Set<String> METHODS = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    /**
+     * Used to synchronize the write and flush calls.
+     */
     private static final ReentrantLock LOCK = new ReentrantLock();
+    private static final Set<String> METHODS = Collections.newSetFromMap(new ConcurrentHashMap<>());
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     private static long lastFlushed = System.currentTimeMillis();
     private static boolean hasToFlush;
     public static BufferedWriter writer;
 
+    /**
+     * Logs the specific method call.
+     *
+     * @param method the method
+     */
     public static void log(String method) {
         if (writer != null) {
             if (!METHODS.contains(method)) {
@@ -27,6 +42,30 @@ public class MethodLogger {
             }
         }
 
+        flushIfNecessary();
+    }
+
+    /**
+     * Writes the value to the BufferedWriter.
+     *
+     * @param value the value to be written
+     */
+    private static void write(String value) {
+        try {
+            LOCK.lock();
+            hasToFlush = true;
+            writer.write(value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            LOCK.unlock();
+        }
+    }
+
+    /**
+     * Flushes the content of the buffer to the disk, if necessary.
+     */
+    private static void flushIfNecessary() {
         if (System.currentTimeMillis() > lastFlushed + 60_000 && hasToFlush) {
             try {
                 lastFlushed = System.currentTimeMillis();
@@ -37,18 +76,6 @@ public class MethodLogger {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private static void write(String value) {
-        try {
-            LOCK.lock();
-            hasToFlush = true;
-            writer.write(value);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            LOCK.unlock();
         }
     }
 

@@ -11,8 +11,19 @@ import java.util.zip.ZipFile;
 
 import static org.objectweb.asm.Opcodes.ASM5;
 
+/**
+ * Analyses the specified jar files and outputs all methods.
+ *
+ * @author Reinhard Seiler {@literal <rseiler.developer@gmail.com>}
+ */
 public class LcmipJarAnalyser {
 
+    /**
+     * The entry point.
+     *
+     * @param args the arguments which are the jar files
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         for (String arg : args) {
             ZipFile zipFile = new ZipFile(arg);
@@ -20,6 +31,12 @@ public class LcmipJarAnalyser {
         }
     }
 
+    /**
+     * Reads the zip entry and if it's a class file extracts the binary of the class file and then outputs the methods.
+     *
+     * @param zipFile  the zip file
+     * @param zipEntry the zip entry
+     */
     private static void readClass(ZipFile zipFile, ZipEntry zipEntry) {
         try {
             if (zipEntry.getName().endsWith(".class")) {
@@ -33,12 +50,21 @@ public class LcmipJarAnalyser {
         }
     }
 
+    /**
+     * Reads the binary class file and outputs the methods.
+     *
+     * @param className the class name
+     * @param classfile the class file
+     */
     public static void logMethods(String className, byte[] classfile) {
         ClassReader classReader = new ClassReader(classfile);
         ClassVisitor classVisitor = new LcmipClassVisitor(ASM5, className);
         classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
     }
 
+    /**
+     * Visits all methods and outputs the visited methods.
+     */
     private static class LcmipClassVisitor extends ClassVisitor {
 
         private final String className;

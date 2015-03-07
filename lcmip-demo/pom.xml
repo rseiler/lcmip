@@ -5,13 +5,14 @@
     <parent>
         <artifactId>lcmip</artifactId>
         <groupId>at.rseiler</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>at.rseiler.lcmip</groupId>
     <artifactId>lcmip-demo</artifactId>
     <name>lcmip-demo</name>
+    <description>Demo project to demonstrate how the tools work.</description>
 
     <properties>
         <!-- multi project config -->

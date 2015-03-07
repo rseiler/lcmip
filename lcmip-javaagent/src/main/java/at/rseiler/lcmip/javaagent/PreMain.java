@@ -14,14 +14,32 @@ import java.lang.instrument.Instrumentation;
 
 import static org.objectweb.asm.Opcodes.ASM5;
 
+/**
+ * The entry class for the Java Agent.
+ * <p/>
+ * It will add a transformer, for all specified packages, which will add a method call to the
+ * {@link at.rseiler.lcmip.javaagent.MethodLogger#log(String)} for all methods. As argument the class-name#method-name
+ * will be used.
+ *
+ * @author Reinhard Seiler {@literal <rseiler.developer@gmail.com>}
+ */
 public class PreMain {
 
+    /**
+     * The entry method for the Java Agent.
+     *
+     * @param args the argument string for the Java Agent which contains the output file and the packages to monitor
+     * @param inst the instrumentation object
+     * @throws IOException
+     */
     public static void premain(String args, Instrumentation inst) throws IOException {
         if (args != null && !args.isEmpty()) {
+            // parses the argument
             String[] options = args.split("#");
             MethodLogger.writer = new BufferedWriter(new FileWriter(options[0], true));
             String[] packages = options[1].replace('.', '/').split(";");
 
+            // adds the transformer
             inst.addTransformer((loader, className, classBeingRedefined, protectionDomain, classfileBuffer) -> {
                 for (String aPackage : packages) {
                     if (className.startsWith(aPackage)) {
@@ -35,9 +53,16 @@ public class PreMain {
 
                 return null;
             });
+        } else {
+            System.err.println("lcmip-javaagent: usage: -javaagent:LCMIP_CORE_PATH=OUTPUT_FILE#PACKAGE_1;PACKAGE_2;PACKAGE_N");
         }
     }
 
+    /**
+     * This class will visit all methods and add the additional method call.
+     *
+     * @author Reinhard Seiler {@literal <rseiler.developer@gmail.com>}
+     */
     private static class LcmipClassVisitor extends ClassVisitor {
 
         private final String className;
@@ -56,6 +81,11 @@ public class PreMain {
             return new MethodLogger(mv, access, name, desc);
         }
 
+        /**
+         * Adds the additional method call at the beginning of the method.
+         *
+         * @author Reinhard Seiler {@literal <rseiler.developer@gmail.com>}
+         */
         class MethodLogger extends AdviceAdapter {
 
             private final String name;

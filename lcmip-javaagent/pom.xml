@@ -5,13 +5,20 @@
     <parent>
         <artifactId>lcmip</artifactId>
         <groupId>at.rseiler</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>at.rseiler.lcmip</groupId>
     <artifactId>lcmip-javaagent</artifactId>
     <name>lcmip-javaagent</name>
+    <description>It's a Java Agent which will logs all method calls of the specified packages.</description>
+
+    <properties>
+        <!-- multi project config -->
+        <main.basedir>${project.basedir}</main.basedir>
+    </properties>
+
 
     <dependencies>
         <dependency>
