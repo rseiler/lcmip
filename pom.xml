@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>at.rseiler.pom-project</groupId>
+        <artifactId>pom</artifactId>
+        <version>1.1</version>
+    </parent>
+
+    <groupId>at.rseiler</groupId>
+    <artifactId>lcmip</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>LCMiP</name>
+    <description>
+        LCMiP - Log Called Methods in Production: a tool box to log all called methods and than creates a report of all unused classes and unused methods.
+    </description>
+
+    <modules>
+        <module>lcmip-javaagent</module>
+        <module>lcmip-jar-analyser</module>
+        <module>lcmip-summary</module>
+        <module>lcmip-demo</module>
+    </modules>
+
+    <properties>
+        <!-- multi project config -->
+        <main.basedir>${project.basedir}</main.basedir>
+        <skipDependencyPlugin>false</skipDependencyPlugin>
+
+        <github-uri>https://github.com/rseiler/lcmip.git</github-uri>
+        <git-uri>git:${github-uri}</git-uri>
+
+        <!-- not required because it's so simple -->
+        <skipCodeAnalysis>true</skipCodeAnalysis>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                    <archive>
+                        <manifestEntries>
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <Premain-Class>at.rseiler.concept.javaagent.core.PreMain</Premain-Class>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-publish-plugin</artifactId>
+                <version>1.1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <checkoutDirectory>${project.basedir}/github.com</checkoutDirectory>
+                    <checkinComment>publishing site documentation</checkinComment>
+                    <content>${env.HOME}/sitedocs/lcmip</content>
+                    <pubScmUrl>scm:${git-uri}</pubScmUrl>
+                    <scmBranch>gh-pages</scmBranch>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <scm>
+        <url>${github-uri}</url>
+        <connection>scm:${git-uri}</connection>
+        <developerConnection>scm:${git-uri}</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <site>
+            <id>site-docs</id>
+            <url>file://${env.HOME}/sitedocs/lcmip</url>
+        </site>
+    </distributionManagement>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>rseiler</id>
+            <name>Reinhard Seiler</name>
+            <email>rseiler.developer@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+</project>
