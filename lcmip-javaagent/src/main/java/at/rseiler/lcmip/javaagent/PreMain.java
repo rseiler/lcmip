@@ -16,10 +16,11 @@ import static org.objectweb.asm.Opcodes.ASM5;
 
 /**
  * The entry class for the Java Agent.
- * <p/>
+ * <p>
  * It will add a transformer, for all specified packages, which will add a method call to the
  * {@link at.rseiler.lcmip.javaagent.MethodLogger#log(String)} for all methods. As argument the class-name#method-name
  * will be used.
+ * </p>
  *
  * @author Reinhard Seiler {@literal <rseiler.developer@gmail.com>}
  */
@@ -30,7 +31,7 @@ public class PreMain {
      *
      * @param args the argument string for the Java Agent which contains the output file and the packages to monitor
      * @param inst the instrumentation object
-     * @throws IOException
+     * @throws IOException is thrown if the output file can't be created
      */
     public static void premain(String args, Instrumentation inst) throws IOException {
         if (args != null && !args.isEmpty()) {

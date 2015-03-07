@@ -11,8 +11,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Logs all method calls.
- * <p/>
+ * <p>
  * A BufferedWriter is used because of performance reasons. Every 60s a flush is triggered, if necessary.
+ * </p>
  *
  * @author Reinhard Seiler {@literal <rseiler.developer@gmail.com>}
  */
