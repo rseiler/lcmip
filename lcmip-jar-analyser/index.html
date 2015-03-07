@@ -28,7 +28,7 @@
                     
                 <div class="xleft">
         <span id="publishDate">Last Published: 2015-03-07</span>
-                  &nbsp;| <span id="projectVersion">Version: 1.0-SNAPSHOT</span>
+                  &nbsp;| <span id="projectVersion">Version: 1.0</span>
                       </div>
             <div class="xright">        
                     
@@ -101,20 +101,21 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <h1>LMCiP - Analyse Jar</h1>
-<p>Reads one or more jar files and extracts outputs all methods.</p>
+<p>Reads one or more jar files and extracts all methods.</p>
+<p><b>Note</b>: you should not use jar files with dependencies. Otherwise you have to clean the output.</p>
 <div class="section">
 <h2><a name="Usage"></a>Usage</h2>
-<p>Use the <tt>lcmip-core-1.0-jar-with-dependencies.jar</tt> which is build with <tt>mvn assembly:assembly</tt>.</p>
+<p>Use the <tt>lcmip-core-1.0-jar-with-dependencies.jar</tt>.</p>
 
 <div class="source">
 <div class="source">
-<pre>-javaagent:LCMIP_ANALYSE_JAR_PATH=OUTPUT_FILE#PACKAGE_1;PACKAGE_2;PACKAGE_N
+<pre>lcmip-jar-analyser-1.0-jar-with-dependencies.jar JAR_FILES
 </pre></div></div>
 <p>Example</p>
 
 <div class="source">
 <div class="source">
-<pre>-javaagent:/lcmip/lcmip-core-1.0-jar-with-dependencies.jar=/lcmip/lcmip-used.txt#at.rseiler.lcmip.demo;at.rseiler.lcmip.demo2
+<pre>java -jar ..\..\lcmip-jar-analyser\target\lcmip-jar-analyser-1.0-jar-with-dependencies.jar lcmip-demo-1.0.jar &gt; method-all.txt
 </pre></div></div></div>
       </div>
     </div>

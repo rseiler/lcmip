@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>lcmip-javaagent &#x2013; About</title>
+    <title>lcmip-javaagent &#x2013; LMCiP - Core</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -28,7 +28,7 @@
                     
                 <div class="xleft">
         <span id="publishDate">Last Published: 2015-03-07</span>
-                  &nbsp;| <span id="projectVersion">Version: 1.0-SNAPSHOT</span>
+                  &nbsp;| <span id="projectVersion">Version: 1.0</span>
                       </div>
             <div class="xright">        
                     
@@ -41,7 +41,57 @@
       <div id="navcolumn">
              
                     
-                                      <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
+                                <h5>Overview</h5>
+                  <ul>
+                  <li class="none">
+            <strong>Introduction</strong>
+          </li>
+          </ul>
+                       <h5>Parent Project</h5>
+                  <ul>
+                  <li class="none">
+                          <a href="../index.html" title="LCMiP">LCMiP</a>
+            </li>
+          </ul>
+                       <h5>Project Documentation</h5>
+                  <ul>
+                                                                                                                                                                                                                              <li class="expanded">
+                          <a href="project-info.html" title="Project Information">Project Information</a>
+                    <ul>
+                      <li class="none">
+            <strong>About</strong>
+          </li>
+                      <li class="none">
+                          <a href="dependencies.html" title="Dependencies">Dependencies</a>
+            </li>
+                      <li class="none">
+                          <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
+            </li>
+                      <li class="none">
+                          <a href="dependency-management.html" title="Dependency Management">Dependency Management</a>
+            </li>
+                      <li class="none">
+                          <a href="license.html" title="Project License">Project License</a>
+            </li>
+                      <li class="none">
+                          <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
+            </li>
+                      <li class="none">
+                          <a href="team-list.html" title="Project Team">Project Team</a>
+            </li>
+                      <li class="none">
+                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
+            </li>
+                      <li class="none">
+                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
+            </li>
+              </ul>
+        </li>
+                                                                                                                                                              <li class="collapsed">
+                          <a href="project-reports.html" title="Project Reports">Project Reports</a>
+                  </li>
+          </ul>
+                             <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
       </a>
                    
@@ -50,9 +100,32 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section">
-<h2><a name="About_lcmip-javaagent"></a>About lcmip-javaagent</h2><a name="About_lcmip-javaagent"></a>
-<p>LCMiP - Log Called Methods in Production: a tool box to log all called methods and than creates a report of all unused classes and unused methods.</p></div>
+        <h1>LMCiP - Core</h1>
+<p>It&#x2019;s a Java Agent which will logs all method calls of the specified packages.</p>
+<p>The output will be written into the specified file. This will happen synchronously to the method call. Therefor it can impact the performance.</p>
+<p>To reduce the performance impact a BufferedWriter with 80kb is used. Additional every 60s the buffer is flushed. That&#x2019;s needed in order to ensure that all method calls are written to the file. There is no own thread to call the flush method. So instrumented methods must be called.</p>
+<p>Note: if the program processes less than 80kb output and runs less than 60s then nothing will be written to file.</p>
+<div class="section">
+<h2><a name="Usage"></a>Usage</h2>
+<p>The <tt>lcmip-core</tt> jar file needs to be attached as Java Agent to the program.</p>
+
+<div class="source">
+<div class="source">
+<pre>-javaagent:LCMIP_CORE_PATH=OUTPUT_FILE#PACKAGE_1;PACKAGE_2;PACKAGE_N
+</pre></div></div>
+
+<ul>
+  
+<li>OUTPUT_FILE: the path to the file to which the output will be written. The OUTPUT_FILE is separated with a hash (#) from the PACKAGEs.</li>
+  
+<li>PACKAGE_*: the packages which should be monitored. The packages are separated with a semicolon (;).</li>
+</ul>
+<p>Example</p>
+
+<div class="source">
+<div class="source">
+<pre>java -javaagent:..\..\lcmip-javaagent\target\lcmip-javaagent-1.0.jar=method-used.txt#at.rseiler.lcmip.demo -jar lcmip-demo-1.0.jar method-used.txt#at.rseiler.lcmip.demo
+</pre></div></div></div>
       </div>
     </div>
     <div class="clear">

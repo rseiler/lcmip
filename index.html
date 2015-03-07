@@ -28,7 +28,7 @@
                     
                 <div class="xleft">
         <span id="publishDate">Last Published: 2015-03-07</span>
-                  &nbsp;| <span id="projectVersion">Version: 1.0-SNAPSHOT</span>
+                  &nbsp;| <span id="projectVersion">Version: 1.0</span>
                       </div>
             <div class="xright">        
                     
@@ -162,8 +162,8 @@ at.rseiler.lcmip.demo.UsedClass#unused
 <div class="source">
 <pre>&gt; mvn clean package
 lcmip-demo\target&gt; java -javaagent:..\..\lcmip-javaagent\target\lcmip-javaagent-1.0.jar=method-used.txt#at.rseiler.lcmip.demo -jar lcmip-demo-1.0.jar method-used.txt#at.rseiler.lcmip.demo
-lcmip-demo\target&gt;java -jar ..\..\lcmip-jar-analyser\target\lcmip-jar-analyser-1.0-jar-with-dependencies.jar lcmip-demo-1.0.jar &gt; method-all.txt
-lcmip-demo\target&gt;java -jar ..\..\lcmip-summary\target\lcmip-compare-1.0-jar-with-dependencies.jar method-all.txt method-used.txt
+lcmip-demo\target&gt; java -jar ..\..\lcmip-jar-analyser\target\lcmip-jar-analyser-1.0-jar-with-dependencies.jar lcmip-demo-1.0.jar &gt; method-all.txt
+lcmip-demo\target&gt; java -jar ..\..\lcmip-summary\target\lcmip-summary-1.0.jar method-all.txt method-used.txt
 </pre></div></div></div>
 <div class="section">
 <h2><a name="Overhead"></a>Overhead</h2>
