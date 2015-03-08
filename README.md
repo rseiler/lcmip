@@ -32,4 +32,4 @@ The pom-project is licensed under the terms of the
 
 ## Thank you!
 
-I really appreciate all kind of feedback and contributions. Thanks for using and supporting spBee.
+I really appreciate all kind of feedback and contributions. Thanks for using and supporting LCMiP.
