@@ -5,17 +5,16 @@ A tool box to log all called methods and to create a report of all unused classe
 Example of such report:
 
     unused classes: 1/4
-    unused methods: 6/16
+    unused methods: 5/12
 
     unused classes
-    at.rseiler.lcmip.demo.UnsedClass
+    at.rseiler.lcmip.demo.UnusedClass
 
     unused methods
     at.rseiler.lcmip.demo.Main#<init>
     at.rseiler.lcmip.demo.Main$MainInnerClass#unusedMethod
-    at.rseiler.lcmip.demo.UnsedClass#<clinit>
-    at.rseiler.lcmip.demo.UnsedClass#<init>
-    at.rseiler.lcmip.demo.UnsedClass#unused
+    at.rseiler.lcmip.demo.UnusedClass#<init>
+    at.rseiler.lcmip.demo.UnusedClass#unused
     at.rseiler.lcmip.demo.UsedClass#unused
 
 

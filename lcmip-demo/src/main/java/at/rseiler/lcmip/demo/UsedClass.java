@@ -2,6 +2,8 @@ package at.rseiler.lcmip.demo;
 
 public class UsedClass {
 
+    private static final String NOT_IMPORTANT = "not important";
+
     private String something;
     private String unused;
 
@@ -18,11 +20,11 @@ public class UsedClass {
     }
 
     public void used() {
-        System.out.println("not important");
+        System.out.println(NOT_IMPORTANT);
     }
 
     public void unused() {
-        System.out.println("not important");
+        System.out.println(NOT_IMPORTANT);
     }
 
 }
