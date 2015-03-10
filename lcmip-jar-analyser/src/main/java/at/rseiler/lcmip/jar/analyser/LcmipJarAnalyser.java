@@ -27,7 +27,7 @@ public class LcmipJarAnalyser {
     public static void main(String[] args) throws IOException {
         for (String arg : args) {
             ZipFile zipFile = new ZipFile(arg);
-            zipFile.stream().forEach(zipEntry -> LcmipJarAnalyser.readClass(zipFile, zipEntry));
+            zipFile.stream().forEach(zipEntry -> readClass(zipFile, zipEntry));
         }
     }
 
@@ -40,10 +40,10 @@ public class LcmipJarAnalyser {
     private static void readClass(ZipFile zipFile, ZipEntry zipEntry) {
         try {
             if (zipEntry.getName().endsWith(".class")) {
-                byte[] classfile = new byte[(int) zipEntry.getSize()];
+                byte[] classFile = new byte[(int) zipEntry.getSize()];
                 DataInputStream dataInputStream = new DataInputStream(zipFile.getInputStream(zipEntry));
-                dataInputStream.readFully(classfile);
-                logMethods(zipEntry.getName().substring(0, zipEntry.getName().length() - 6), classfile);
+                dataInputStream.readFully(classFile);
+                logMethods(zipEntry.getName().substring(0, zipEntry.getName().length() - 6), classFile);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,10 +54,10 @@ public class LcmipJarAnalyser {
      * Reads the binary class file and outputs the methods.
      *
      * @param className the class name
-     * @param classfile the class file
+     * @param classFile the class file
      */
-    public static void logMethods(String className, byte[] classfile) {
-        ClassReader classReader = new ClassReader(classfile);
+    public static void logMethods(String className, byte[] classFile) {
+        ClassReader classReader = new ClassReader(classFile);
         ClassVisitor classVisitor = new LcmipClassVisitor(ASM5, className);
         classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
     }
@@ -74,6 +74,7 @@ public class LcmipJarAnalyser {
             this.className = className.replaceAll("/", ".");
         }
 
+        @Override
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             System.out.println(className + "#" + name);
             return super.visitMethod(access, name, desc, signature, exceptions);

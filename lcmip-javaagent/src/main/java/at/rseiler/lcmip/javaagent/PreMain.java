@@ -73,6 +73,7 @@ public class PreMain {
             this.className = className.replaceAll("/", ".");
         }
 
+        @Override
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             if (cv == null) {
                 return null;
@@ -98,8 +99,8 @@ public class PreMain {
 
             @Override
             protected void onMethodEnter() {
-                super.visitLdcInsn(className + "#" + name);
-                super.visitMethodInsn(INVOKESTATIC, "at/rseiler/lcmip/javaagent/MethodLogger", "log", "(Ljava/lang/String;)V", false);
+                visitLdcInsn(className + "#" + name);
+                visitMethodInsn(INVOKESTATIC, "at/rseiler/lcmip/javaagent/MethodLogger", "log", "(Ljava/lang/String;)V", false);
             }
         }
 
