@@ -46,9 +46,14 @@ public class PreMain {
                     if (className.startsWith(aPackage)) {
                         ClassReader classReader = new ClassReader(classfileBuffer);
                         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-                        ClassVisitor classVisitor = new LcmipClassVisitor(ASM5, classWriter, className);
+                        LcmipClassVisitor classVisitor = new LcmipClassVisitor(ASM5, classWriter, className);
                         classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
-                        return classWriter.toByteArray();
+
+                        if (!classVisitor.isGenerated()) {
+                            return classWriter.toByteArray();
+                        } else {
+                            return null;
+                        }
                     }
                 }
 
@@ -67,12 +72,24 @@ public class PreMain {
     private static class LcmipClassVisitor extends ClassVisitor {
 
         private final String className;
+        private boolean isGenerated;
 
         public LcmipClassVisitor(int i, ClassVisitor classVisitor, String className) {
             super(i, classVisitor);
             this.className = className.replaceAll("/", ".");
         }
 
+        public boolean isGenerated() {
+            return isGenerated;
+        }
+
+        @Override
+        public void visitSource(String source, String debug) {
+            isGenerated = "<generated>".equals(source);
+            super.visitSource(source, debug);
+        }
+
+        @Override
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
             if (cv == null) {
                 return null;
