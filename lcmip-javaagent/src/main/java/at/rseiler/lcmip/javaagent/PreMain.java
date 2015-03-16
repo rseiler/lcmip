@@ -46,14 +46,9 @@ public class PreMain {
                     if (className.startsWith(aPackage)) {
                         ClassReader classReader = new ClassReader(classfileBuffer);
                         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-                        LcmipClassVisitor classVisitor = new LcmipClassVisitor(ASM5, classWriter, className);
+                        ClassVisitor classVisitor = new LcmipClassVisitor(ASM5, classWriter, className);
                         classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
-
-                        if (!classVisitor.isGenerated()) {
-                            return classWriter.toByteArray();
-                        } else {
-                            return null;
-                        }
+                        return classWriter.toByteArray();
                     }
                 }
 
@@ -115,8 +110,8 @@ public class PreMain {
 
             @Override
             protected void onMethodEnter() {
-                super.visitLdcInsn(className + "#" + name);
-                super.visitMethodInsn(INVOKESTATIC, "at/rseiler/lcmip/javaagent/MethodLogger", "log", "(Ljava/lang/String;)V", false);
+                visitLdcInsn(className + "#" + name);
+                visitMethodInsn(INVOKESTATIC, "at/rseiler/lcmip/javaagent/MethodLogger", "log", "(Ljava/lang/String;)V", false);
             }
         }
 
