@@ -46,9 +46,14 @@ public class PreMain {
                     if (className.startsWith(aPackage)) {
                         ClassReader classReader = new ClassReader(classfileBuffer);
                         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-                        ClassVisitor classVisitor = new LcmipClassVisitor(ASM5, classWriter, className);
+                        LcmipClassVisitor classVisitor = new LcmipClassVisitor(ASM5, classWriter, className);
                         classReader.accept(classVisitor, ClassReader.EXPAND_FRAMES);
-                        return classWriter.toByteArray();
+
+                        if (!classVisitor.isGenerated()) {
+                            return classWriter.toByteArray();
+                        } else {
+                            return null;
+                        }
                     }
                 }
 
